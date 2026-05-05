@@ -1,16 +1,22 @@
+using Application.Repositories;
+using Application.Services.RoleService;
+using Application.Services.UserService;
 using Infrastructuer.Context;
+using Infrastructuer.Data;
+using Infrastructuer.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));  // Connection Strings Registration
+// Connection Strings Registration
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
-builder.Services.AddSwaggerGen(c =>  // Swagger Registration
+// Swagger Registration
+builder.Services.AddSwaggerGen(c =>  
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
@@ -41,12 +47,20 @@ builder.Services.AddSwaggerGen(c =>  // Swagger Registration
     c.AddSecurityRequirement(securityReq);
 });
 
+// Dependency Injection Registration
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped(typeof(IUserService), typeof(UserService));
+builder.Services.AddScoped(typeof(IRoleService), typeof(RoleService));
+
+
 var app = builder.Build();
 
 
 // Configure the HTTP request pipeline.
 
-app.UseSwagger();   // Swagger pipelines
+UserSeedData.UserSeed(app.Services); // Seed Data Registration 
+
+app.UseSwagger();   // Swagger pipeline
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
