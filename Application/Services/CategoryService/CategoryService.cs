@@ -35,7 +35,7 @@ namespace Application.Services.CategoryService
             var data = await _categoryRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
 
             if (data == null)
-                throw new Exception("Category was not found.");
+                throw new Exception("Category not found.");
 
             _categoryRepository.Delete(data);
             await _categoryRepository.SaveChangesAsync();
@@ -58,7 +58,7 @@ namespace Application.Services.CategoryService
             var data = await _categoryRepository.GetByIdAsync(id);
 
             if (data == null)
-                throw new Exception("Category was not found.");
+                throw new Exception("Category not found.");
 
             var result = new GetCategoryByIdDto
             {

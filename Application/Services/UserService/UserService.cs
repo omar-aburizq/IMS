@@ -44,7 +44,7 @@ namespace Application.Services.UserService
             var data = await _userRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
 
             if (data == null)
-                throw new Exception("User was not found.");
+                throw new Exception("User not found.");
 
             _userRepository.Delete(data);
             await _userRepository.SaveChangesAsync();
@@ -82,7 +82,7 @@ namespace Application.Services.UserService
             var data = await _userRepository.GetAll().Include(x => x.Role).FirstOrDefaultAsync(x => x.Id == id);
 
             if (data == null)
-                throw new Exception("User was not found.");
+                throw new Exception("User not found.");
 
             var result = new GetUserDto
             {
@@ -98,15 +98,15 @@ namespace Application.Services.UserService
         public async Task UpdateUser(Guid id, UpdateUserDto input)
         {
             if( await _userRepository.GetAll().AnyAsync(x=> x.Email == input.Email && x.Id != id))
-                throw new Exception("Registration failed: email or phone number already exists.");
+                throw new Exception("email or phone number already exists.");
 
             if(await _userRepository.GetAll().AnyAsync(x=>x.PhoneNumber == input.PhoneNumber && x.Id !=id))
-                throw new Exception("Registration failed: email or phone number already exists.");
+                throw new Exception("email or phone number already exists.");
 
             var data = await _userRepository.GetByIdAsync(id);
 
             if(data == null)
-                throw new Exception("User was not found.");
+                throw new Exception("User not found.");
 
             data.Name = input.Name;
             data.Email = input.Email;
