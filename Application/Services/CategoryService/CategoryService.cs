@@ -15,10 +15,10 @@ namespace Application.Services.CategoryService
 
         public async Task CreateCategory(CreateCategoryDto input)
         {
-            if (await _categoryRepository.GetAll().AnyAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim()))
+            if (await _categoryRepository.GetAll().AnyAsync(x => x.Name == input.Name.ToLower().Trim()))
                 throw new Exception("category name already exists.");
 
-            var Category = new Category
+            var category = new Category
             {
                 Id = Guid.NewGuid(),
                 Name = input.Name.ToLower().Trim(),
@@ -26,7 +26,7 @@ namespace Application.Services.CategoryService
                 Sort = input.Sort,
             };
 
-            await _categoryRepository.InsertAsync(Category);
+            await _categoryRepository.InsertAsync(category);
             await _categoryRepository.SaveChangesAsync();
         }
 
@@ -72,7 +72,7 @@ namespace Application.Services.CategoryService
 
         public async Task UpdateCategory(Guid id, UpdateCategoryDto input)
         {
-            if (await _categoryRepository.GetAll().AnyAsync(c => c.Name.ToLower().Trim() == input.Name.ToLower().Trim() && c.Id != id))
+            if (await _categoryRepository.GetAll().AnyAsync(c => c.Name == input.Name.ToLower().Trim() && c.Id != id))
                 throw new Exception("Category name already exists.");
 
             var data = await _categoryRepository.GetByIdAsync(id);
