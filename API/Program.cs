@@ -1,5 +1,7 @@
 using Application.Repositories;
+using Application.Services.AuthService;
 using Application.Services.CategoryService;
+using Application.Services.CurrentUserService;
 using Application.Services.InventoryTransactionService;
 using Application.Services.OrderService;
 using Application.Services.ProductService;
@@ -8,8 +10,12 @@ using Application.Services.UserService;
 using Infrastructuer.Context;
 using Infrastructuer.Data;
 using Infrastructuer.Repositories;
+using Infrastructuer.Service.CurrentUserService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +24,28 @@ builder.Services.AddControllers();
 
 // Connection Strings Registration
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+
+// JWT Registration 
+var jwtSection = builder.Configuration.GetSection("Jwt");
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)  // Install Microsoft.AspNetCore.Authentication.JwtBearer
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSection["Issuer"],
+            ValidAudience = jwtSection["Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["Key"])),
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddEndpointsApiExplorer();
 
 // Swagger Registration
 builder.Services.AddSwaggerGen(c =>  
@@ -58,7 +86,9 @@ builder.Services.AddScoped(typeof(IRoleService), typeof(RoleService));
 builder.Services.AddScoped(typeof(ICategoryService), typeof(CategoryService));
 builder.Services.AddScoped(typeof(IProductService), typeof(ProductService));
 builder.Services.AddScoped(typeof(IOrderService), typeof(OrderService));
+builder.Services.AddScoped(typeof(IAuthService), typeof(AuthService));
 builder.Services.AddScoped(typeof(IInventoryTransactionService), typeof(InventoryTransactionService));
+builder.Services.AddScoped(typeof(ICurrentUserService), typeof(CurrentUserService));
 
 
 var app = builder.Build();
@@ -69,12 +99,17 @@ var app = builder.Build();
 UserSeedData.UserSeed(app.Services); // Seed Data Registration 
 
 app.UseSwagger();   // Swagger pipeline
-app.UseSwaggerUI();
+
+app.UseSwaggerUI(); // Swagger pipeline
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseAuthentication(); // Authentication pipeline
+
+app.UseAuthorization(); // Authorization pipeline
 
 app.MapControllers();
 
 app.Run();
+
+//[Authorize(Roles = "Admin,Employee,Customer")]

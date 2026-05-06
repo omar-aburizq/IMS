@@ -1,9 +1,11 @@
 ﻿using Application.Services.OrderService;
 using Application.Services.OrderService.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
@@ -21,6 +23,7 @@ namespace API.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [HttpGet("GetAllOrders")]
         public async Task<IActionResult> GetAllOrders()
         {
@@ -28,6 +31,7 @@ namespace API.Controllers
             return Ok(orders);
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [HttpGet("GetOrderById")]
         public async Task<IActionResult> GetOrderById(Guid id)
         {

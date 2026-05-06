@@ -1,9 +1,11 @@
 ﻿using Application.Services.ProductService;
 using Application.Services.ProductService.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -14,6 +16,7 @@ namespace API.Controllers
             _productService = productService;
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [HttpPost("CreateProduct")]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductDto input)
         {
@@ -21,6 +24,7 @@ namespace API.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [HttpDelete("DeleteProduct")]
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
@@ -42,6 +46,7 @@ namespace API.Controllers
             return Ok(user);
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [HttpPost("UpdateProduct")]
         public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] UpdateProductDto input)
         {

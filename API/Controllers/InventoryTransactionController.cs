@@ -1,10 +1,13 @@
 ﻿using Application.Services.InventoryTransactionService;
 using Application.Services.InventoryTransactionService.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize]
+    [Authorize(Roles = "Admin,Employee")]
     [Route("api/[controller]")]
     [ApiController]
     public class InventoryTransactionController : ControllerBase
