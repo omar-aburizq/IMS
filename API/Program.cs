@@ -1,5 +1,6 @@
 using Application.Repositories;
 using Application.Services.CategoryService;
+using Application.Services.OrderService;
 using Application.Services.ProductService;
 using Application.Services.RoleService;
 using Application.Services.UserService;
@@ -55,6 +56,7 @@ builder.Services.AddScoped(typeof(IUserService), typeof(UserService));
 builder.Services.AddScoped(typeof(IRoleService), typeof(RoleService));
 builder.Services.AddScoped(typeof(ICategoryService), typeof(CategoryService));
 builder.Services.AddScoped(typeof(IProductService), typeof(ProductService));
+builder.Services.AddScoped(typeof(IOrderService), typeof(OrderService));
 
 
 var app = builder.Build();
