@@ -46,11 +46,14 @@ namespace Application.Services.InventoryTransactionService
                 TransactionType = input.TransactionType,
                 CreateAt = DateTime.UtcNow,
             };
+
+            await _inventoryTransactionRepository.InsertAsync(data);
+            await _inventoryTransactionRepository.SaveChangesAsync();
         }
 
         public async Task<List<GetAllTransactionsDto>> GetAllTransactions()
         {
-            var data = _inventoryTransactionRepository.GetAll().Include(x => x.Product);
+            var data =  _inventoryTransactionRepository.GetAll().Include(x => x.Product);
 
             var result = await data.Select(x => new GetAllTransactionsDto
             {
