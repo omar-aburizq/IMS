@@ -112,5 +112,4 @@ app.MapControllers();
 
 app.Run();
 
-// Test
 //[Authorize(Roles = "Admin,Employee,Customer")]
