@@ -69,7 +69,7 @@ namespace Application.Services.InventoryTransactionService
 
         public async Task<GetTransactionByIdDto> GetTransactionById(Guid id)
         {
-            var data = await _inventoryTransactionRepository.GetAll().Include(x => x.Product).FirstOrDefaultAsync(x => x.Id == id);
+            var data = await _inventoryTransactionRepository.GetAll().Include(x => x.Product).FirstOrDefaultAsync(x => x.Id == id); // Include With GetById
 
             if (data == null)
                 new Exception("Inventory Transaction not found.");

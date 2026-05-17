@@ -32,7 +32,7 @@ namespace Application.Services.CategoryService
 
         public async Task DeleteCategory(Guid id)
         {
-            var data = await _categoryRepository.GetAll().Include(x=>x.Products).FirstOrDefaultAsync(x => x.Id == id);
+            var data = await _categoryRepository.GetAll().Include(x=>x.Products).FirstOrDefaultAsync(x => x.Id == id);  // Cancel Cascade Delete 
 
             if (data == null)
                 throw new Exception("Category not found.");

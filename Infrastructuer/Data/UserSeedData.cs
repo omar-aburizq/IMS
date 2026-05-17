@@ -9,7 +9,7 @@ namespace Infrastructuer.Data
     public static class UserSeedData
     {
 
-        private readonly static string adminPassword = "Admin@123";  // Password
+        private readonly static string adminPassword = "Admin@123";  // Set Password
 
         public static void UserSeed(IServiceProvider serviceProvider)
         {

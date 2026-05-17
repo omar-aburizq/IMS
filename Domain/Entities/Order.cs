@@ -7,7 +7,7 @@
         public decimal TotalAmount { get; set; }
         public DateTime CreateAt { get; set; }
 
-        public Guid? UserId { get; set; }
+        public Guid? UserId { get; set; } // Optional (Guest)
         public User? User { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; }
     }

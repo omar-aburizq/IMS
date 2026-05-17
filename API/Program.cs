@@ -22,7 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
-// Connection Strings Registration
+// DbContext Registration
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 // JWT Registration 
@@ -81,13 +81,15 @@ builder.Services.AddSwaggerGen(c =>
 
 // Dependency Injection Registration
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
 builder.Services.AddScoped(typeof(IUserService), typeof(UserService));
 builder.Services.AddScoped(typeof(IRoleService), typeof(RoleService));
 builder.Services.AddScoped(typeof(ICategoryService), typeof(CategoryService));
 builder.Services.AddScoped(typeof(IProductService), typeof(ProductService));
 builder.Services.AddScoped(typeof(IOrderService), typeof(OrderService));
-builder.Services.AddScoped(typeof(IAuthService), typeof(AuthService));
 builder.Services.AddScoped(typeof(IInventoryTransactionService), typeof(InventoryTransactionService));
+
+builder.Services.AddScoped(typeof(IAuthService), typeof(AuthService));
 builder.Services.AddScoped(typeof(ICurrentUserService), typeof(CurrentUserService));
 
 
@@ -112,4 +114,3 @@ app.MapControllers();
 
 app.Run();
 
-//[Authorize(Roles = "Admin,Employee,Customer")]

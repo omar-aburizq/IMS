@@ -18,7 +18,7 @@ namespace Infrastructuer.Repositories
             _dbSet.Remove(input);
         }
 
-        public IQueryable<T> GetAll()
+        public IQueryable<T> GetAll() // IQueryable
         {
             var data = _dbSet.AsQueryable();
             return data;

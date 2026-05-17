@@ -22,7 +22,7 @@ namespace Application.Services.UserService
             if (await _userRepository.GetAll().AnyAsync(x => x.PhoneNumber.Trim() == input.PhoneNumber.Trim()))
                 throw new Exception("Registration failed: email or phone number already exists.");
 
-            var user = new User
+            var user = new User // User Entity
             {
                 Id = Guid.NewGuid(),
                 Name = input.Name,
@@ -63,9 +63,9 @@ namespace Application.Services.UserService
             if (email != null)
                 users = users.Where(x => x.Email.ToLower().Trim().Contains(email));
 
-            users = users.Include(x => x.Role);
+            users = users.Include(x => x.Role); // Eager Loading
 
-            var result = users.Select(data => new GetAllUsersDto
+            var result = users.Select(data => new GetAllUsersDto // Mapping List To List
             {
                 Id = data.Id,
                 Name = data.Name,

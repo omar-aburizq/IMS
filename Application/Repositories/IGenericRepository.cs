@@ -2,7 +2,7 @@
 {
     public interface IGenericRepository<T> where T : class
     {
-        public IQueryable<T> GetAll();
+        public IQueryable<T> GetAll(); // IQueryable
         public Task<T> GetByIdAsync(Guid id);
         public Task InsertAsync(T input);
         public Task InsertRangeAsync(List<T> input);
