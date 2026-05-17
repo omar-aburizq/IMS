@@ -15,13 +15,13 @@ namespace Application.Services.CategoryService
 
         public async Task CreateCategory(CreateCategoryDto input)
         {
-            if (await _categoryRepository.GetAll().AnyAsync(x => x.Name == input.Name.ToLower().Trim()))
+            if (await _categoryRepository.GetAll().AnyAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim()))
                 throw new Exception("category name already exists.");
 
             var category = new Category
             {
                 Id = Guid.NewGuid(),
-                Name = input.Name.ToLower().Trim(),
+                Name = input.Name,
                 Description = input.Description,
                 Sort = input.Sort,
             };
@@ -83,7 +83,7 @@ namespace Application.Services.CategoryService
             if (data == null)
                 throw new Exception("Category was not found.");
 
-            data.Name = input.Name.ToLower().Trim();
+            data.Name = input.Name;
             data.Description = input.Description;
             data.Sort = input.Sort;
 

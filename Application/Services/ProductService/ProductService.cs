@@ -20,13 +20,13 @@ namespace Application.Services.ProductService
             if (!(await _categoryRepository.GetAll().AnyAsync(c => c.Id == input.CategoryId)))
                 throw new Exception("Category not found.");
 
-            if (await _productRepository.GetAll().AnyAsync(x => x.Name == input.Name.ToLower().Trim()))
+            if (await _productRepository.GetAll().AnyAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim()))
                 throw new Exception("product name already exists.");
 
             var data = new Product
             {
                 Id = Guid.NewGuid(),
-                Name = input.Name.ToLower().Trim(),
+                Name = input.Name,
                 SalePrice = input.SalePrice,
                 CategoryId = input.CategoryId,
                 CurrentStock = 0,
@@ -51,6 +51,7 @@ namespace Application.Services.ProductService
         public async Task<List<GetAllProductsDto>> GetAllProducts()
         {
             var data = _productRepository.GetAll().Include(x => x.Category);
+
             var result = await data.Select(x => new GetAllProductsDto
             {
                 Id = x.Id,
@@ -85,7 +86,7 @@ namespace Application.Services.ProductService
             if (!(await _categoryRepository.GetAll().AnyAsync(c => c.Id == input.CategoryId)))
                 throw new Exception("Category not found.");
 
-            if (await _productRepository.GetAll().AnyAsync(x => x.Name == input.Name.ToLower().Trim() && x.Id != id))
+            if (await _productRepository.GetAll().AnyAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim() && x.Id != id))
                 throw new Exception("product name already exists.");
 
             var data = await _productRepository.GetByIdAsync(id);

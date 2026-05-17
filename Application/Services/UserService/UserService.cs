@@ -109,8 +109,8 @@ namespace Application.Services.UserService
                 throw new Exception("User not found.");
 
             data.Name = input.Name;
-            data.Email = input.Email;
-            data.PhoneNumber = input.PhoneNumber;
+            data.Email = input.Email.ToLower().Trim();
+            data.PhoneNumber = input.PhoneNumber.Trim();
             data.RoleId = input.RoleId;
 
             _userRepository.Update(data);

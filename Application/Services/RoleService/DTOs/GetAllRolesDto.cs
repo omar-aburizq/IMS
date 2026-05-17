@@ -1,6 +1,4 @@
-﻿using Domain.Enums;
-
-namespace Application.Services.RoleService.DTOs
+﻿namespace Application.Services.RoleService.DTOs
 {
     public class GetAllRolesDto
     {

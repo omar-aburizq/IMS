@@ -4,10 +4,10 @@ namespace Application.Services.UserService
 {
     public interface IUserService
     {
-        public Task CreateUser(CreateUserDto input);
-        public Task<List<GetAllUsersDto>> GetAllUsers(string? name ,string? email);
-        public Task<GetUserDto> GetUserById (Guid id);
-        public Task UpdateUser(Guid id, UpdateUserDto input );
-        public Task DeleteUser(Guid id);
+        Task CreateUser(CreateUserDto input);
+        Task<List<GetAllUsersDto>> GetAllUsers(string? name, string? email);
+        Task<GetUserDto> GetUserById(Guid id);
+        Task UpdateUser(Guid id, UpdateUserDto input);
+        Task DeleteUser(Guid id);
     }
 }
