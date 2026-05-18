@@ -4,8 +4,8 @@ namespace Application.Services.OrderService
 {
     public interface IOrderService
     {
-        public Task CreateOrder(CreateOrderDto input);
-        public Task<List<GetAllOrdersDto>> GetAllOrders();
-        public Task<GetOrderByIdDto> GetOrderById(Guid id);
+        Task CreateOrder(CreateOrderDto input);
+        Task<List<GetAllOrdersDto>> GetAllOrders();
+        Task<GetOrderByIdDto> GetOrderById(Guid id);
     }
 }

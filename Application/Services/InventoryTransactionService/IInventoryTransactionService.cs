@@ -4,8 +4,8 @@ namespace Application.Services.InventoryTransactionService
 {
     public interface IInventoryTransactionService
     {
-        public Task CreateTransaction(CreateTransactionDto input);
-        public Task<List<GetAllTransactionsDto>> GetAllTransactions();
-        public Task<GetTransactionByIdDto> GetTransactionById(Guid id);
+        Task CreateTransaction(CreateTransactionDto input);
+        Task<List<GetAllTransactionsDto>> GetAllTransactions();
+        Task<GetTransactionByIdDto> GetTransactionById(Guid id);
     }
 }
